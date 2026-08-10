@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para a Mulher da Minha Vida</title>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=EB+Garamond:ital@0;1&display=swap');
+
+  :root {
+    --creme: #f3ecf9;
+    --roxo: #b48ed6;
+    --fundo-1: #180d26;
+    --fundo-2: #341b4d;
+    --erro: #e39fc2;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    min-height: 100%;
+    background: radial-gradient(ellipse at top, var(--fundo-2) 0%, var(--fundo-1) 70%);
+  }
+
+  body {
+    min-height: 100vh;
+    background: transparent;
+    font-family: 'EB Garamond', 'Georgia', serif;
+    color: var(--creme);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+  }
+
+  h1, h2, .titulo {
+    font-family: 'Cormorant Garamond', 'Georgia', serif;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  /* ---------- ECRÃ 1: PASSWORD ---------- */
+  #tela-lock {
+    max-width: 420px;
+    width: 100%;
+    animation: aparecer 1s ease;
+  }
+
+  @keyframes aparecer {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  #tela-lock h1 {
+    font-size: 2.1em;
+    margin-bottom: 14px;
+    color: var(--roxo);
+  }
+
+  #tela-lock p.sub {
+    font-size: 1.15em;
+    line-height: 1.6;
+    opacity: 0.85;
+    margin-bottom: 30px;
+  }
+
+  #input-data {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 1.15em;
+    font-family: 'EB Garamond', 'Georgia', serif;
+    text-align: center;
+    letter-spacing: 1px;
+    background: transparent;
+    border: none;
+    border-bottom: 1.5px solid rgba(255,241,230,0.35);
+    color: var(--creme);
+    outline: none;
+    transition: border-color 0.25s;
+  }
+  #input-data::placeholder { color: rgba(255,241,230,0.4); }
+  #input-data:focus { border-color: var(--roxo); }
+
+  .erro-shake { animation: shake 0.4s; border-color: var(--erro) !important; }
+  @keyframes shake {
+    10%, 90% { transform: translateX(-2px); }
+    20%, 80% { transform: translateX(4px); }
+    30%, 50%, 70% { transform: translateX(-8px); }
+    40%, 60% { transform: translateX(8px); }
+  }
+
+  #dica {
+    margin-top: 14px;
+    font-size: 0.9em;
+    font-style: italic;
+    opacity: 0.55;
+  }
+
+  #msg-erro {
+    margin-top: 12px;
+    font-size: 0.9em;
+    color: var(--erro);
+    min-height: 16px;
+  }
+
+  #btn-abrir {
+    margin-top: 30px;
+    padding: 13px 34px;
+    background: transparent;
+    border: 1px solid var(--roxo);
+    border-radius: 999px;
+    color: var(--roxo);
+    font-family: 'Cormorant Garamond', 'Georgia', serif;
+    font-size: 1.05em;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background 0.25s, color 0.25s;
+  }
+  #btn-abrir:hover { background: var(--roxo); color: var(--fundo-1); }
+
+  /* ---------- ECRÃ 2: CARTA ---------- */
+  #tela-reveal {
+    display: none;
+    max-width: 620px;
+    width: 100%;
+  }
+  #tela-reveal.ativo { display: block; }
+
+  #titulo-reveal {
+    font-size: 2.6em;
+    color: var(--roxo);
+    margin-bottom: 46px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  #titulo-reveal.visivel { opacity: 1; transform: translateY(0); }
+
+  .carta p {
+    font-size: 1.35em;
+    line-height: 1.9;
+    margin-bottom: 6px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .carta p.visivel { opacity: 1; transform: translateY(0); }
+
+  /* ---------- PERGUNTA FINAL ---------- */
+  #pergunta-final {
+    margin-top: 56px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  #pergunta-final.visivel { opacity: 1; transform: translateY(0); }
+
+  #texto-pergunta {
+    font-size: 1.5em;
+    color: var(--creme);
+    margin-bottom: 26px;
+  }
+
+  .botoes {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    position: relative;
+    min-height: 56px;
+  }
+
+  .btn-sim, .btn-nao {
+    padding: 12px 30px;
+    border-radius: 999px;
+    font-family: 'Cormorant Garamond', 'Georgia', serif;
+    font-size: 1.1em;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+  }
+
+  .btn-sim {
+    background: var(--roxo);
+    color: var(--fundo-1);
+    border: 1px solid var(--roxo);
+    transition: transform 0.2s;
+  }
+  .btn-sim:hover { transform: scale(1.06); }
+
+  .btn-nao {
+    background: transparent;
+    color: var(--creme);
+    border: 1px solid rgba(255,241,230,0.35);
+    position: relative;
+    transition: transform 0.15s ease-out;
+  }
+
+  #resultado {
+    display: none;
+    margin-top: 22px;
+    font-family: 'Cormorant Garamond', 'Georgia', serif;
+    font-size: 1.4em;
+    color: var(--roxo);
+  }
+
+  footer.assinatura {
+    margin-top: 40px;
+    font-size: 1em;
+    font-style: italic;
+    opacity: 0.5;
+  }
+
+  @media (max-width: 480px) {
+    #titulo-reveal { font-size: 2em; }
+    .carta p { font-size: 1.15em; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= ECRÃ 1: PASSWORD ================= -->
+<div id="tela-lock">
+  <h1>Isto é só para ti!</h1>
+  <p class="sub" id="texto-intro">
+    Antes de continuares, preciso que me digas uma data, a mais importante do nosso calendário.
+  </p>
+
+  <input type="text" id="input-data" placeholder="dd/mm/aaaa" autocomplete="off" inputmode="numeric">
+  <div id="dica"></div>
+  <div id="msg-erro"></div>
+
+  <button id="btn-abrir">Desbloquear</button>
+</div>
+
+<!-- ================= ECRÃ 2: CARTA ================= -->
+<div id="tela-reveal">
+  <h1 id="titulo-reveal">Título aqui</h1>
+
+  <div class="carta" id="carta-texto">
+
+  </div>
+
+  <div id="pergunta-final">
+    <p id="texto-pergunta">Pergunta final aqui?</p>
+    <div class="botoes">
+      <button class="btn-sim" id="btn-sim">Claro que SIM!</button>
+      <button class="btn-nao" id="btn-nao">SIM!</button>
+    </div>
+    <div id="resultado"></div>
+  </div>
+
+  <footer class="assinatura" id="assinatura"></footer>
+</div>
+
+
+<script>
+/* =====================================================================
+   PERSONALIZAÇÃO — MUDA SÓ AQUI
+   ===================================================================== */
+
+// A password é a data em que se conheceram
+const DATA_PASSWORD    = "28/11/2024"; 
+const DICA_PASSWORD    = "Dica: O dia em que tudo realmente começou HAHAH! (dd/mm/aaaa)";
+
+const MENSAGEM_TITULO  = `To My Wife`;
+
+const MENSAGEM_TEXTO   = [
+
+  'Não sei nem por onde começar, até porque existe tanta coisa que eu sinto por você que palavra nenhuma é suficiente para descrever.',
+
+  'Entretanto, começarei dizendo que a tua presença na minha vida tem sido um presente, mas eu entendo que a vida por vezes pode nos parecer injusta devido a situação em que nos encontramos, a distância.',
+
+  'E olha, eu não queria que fosse assim, queria poder fazer e dizer tudo isto pessoalmente, de joelhos, no teu lugar favorito.',
+
+  'Eu espero que esta carta traga um sorriso ao teu rosto, assim como tu trazes luz ao meu dia, todos os dias.',
+
+  'Tu és como a minha música favorita, sempre presa na minha cabeça, confortante e cheia de calor. Cada vez que penso em ti, o mundo parece mais suave, mais brilhante e um pouco mais mágico!',
+
+  'Em ti eu vejo a minha melhor amiga, e não só, eu vejo todo o universo, a razão do meu sorriso e da minha felicidade diária.',
+
+  'Eu sou apaixonado por você! Tu és a pessoa que eu quero ao meu lado para viver todas as aventuras que a vida nos reserva!',
+
+  'Eu quero que saibas que estarei sempre aqui para ti e farei de ti a MINHA MULHER!',
+
+];
+
+const PERGUNTA_FINAL    = `Por isso, com todo o meu coração, faço-te este pedido: Aceita namorar comingo?`;
+const ASSINATURA        = `Do Teu Eterno Amor, Daniel Jr.!`;
+
+
+
+/* ===================================================================== */
+
+document.getElementById('dica').textContent = DICA_PASSWORD;
+document.getElementById('titulo-reveal').textContent = MENSAGEM_TITULO;
+document.getElementById('texto-pergunta').textContent = PERGUNTA_FINAL;
+document.getElementById('assinatura').textContent = ASSINATURA;
+
+const cartaEl = document.getElementById('carta-texto');
+MENSAGEM_TEXTO.forEach((linha) => {
+  const p = document.createElement('p');
+  p.textContent = linha;
+  cartaEl.appendChild(p);
+});
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visivel');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+
+function ativarRevelacao() {
+  document.getElementById('titulo-reveal').classList.add('visivel');
+  document.querySelectorAll('.carta p').forEach(p => observer.observe(p));
+  observer.observe(document.getElementById('pergunta-final'));
+}
+
+/* ---------- Normalizar e comparar a data ---------- */
+function apenasDigitos(str) {
+  return (str.match(/\d+/g) || []).join('');
+}
+const passwordAlvo = apenasDigitos(DATA_PASSWORD);
+
+const input = document.getElementById('input-data');
+const btnAbrir = document.getElementById('btn-abrir');
+const msgErro = document.getElementById('msg-erro');
+
+function tentarAbrir() {
+  const tentativa = apenasDigitos(input.value);
+  if (tentativa.length > 0 && tentativa === passwordAlvo) {
+    abrirMensagem();
+  } else {
+    msgErro.textContent = "Não é essa data. Tenta outra vez.";
+    input.classList.remove('erro-shake');
+    void input.offsetWidth;
+    input.classList.add('erro-shake');
+  }
+}
+
+btnAbrir.addEventListener('click', tentarAbrir);
+input.addEventListener('keydown', e => { if (e.key === 'Enter') tentarAbrir(); });
+
+function abrirMensagem() {
+  document.getElementById('tela-lock').style.display = 'none';
+  document.getElementById('tela-reveal').classList.add('ativo');
+  ativarRevelacao();
+
+  deveTocarMusica = true;
+  if (ytPronto && ytPlayer) {
+    ytPlayer.playVideo();
+  }
+}
+
+/* ---------- Botão "Não" foge do rato ---------- */
+const btnNao = document.getElementById('btn-nao');
+const botoesContainer = document.querySelector('.botoes');
+
+function fugirBotao() {
+  const cont = botoesContainer.getBoundingClientRect();
+  const maxX = cont.width - btnNao.offsetWidth - 8;
+  const maxY = cont.height - btnNao.offsetHeight - 8;
+  const novoX = Math.random() * Math.max(maxX, 40);
+  const novoY = (Math.random() - 0.5) * Math.max(maxY, 20);
+  btnNao.style.position = 'absolute';
+  btnNao.style.left = novoX + 'px';
+  btnNao.style.top = (30 + novoY) + 'px';
+}
+
+btnNao.addEventListener('mouseenter', fugirBotao);
+btnNao.addEventListener('touchstart', (e) => { e.preventDefault(); fugirBotao(); });
+
+document.getElementById('btn-sim').addEventListener('click', () => {
+  const resultado = document.getElementById('resultado');
+  resultado.style.display = 'block';
+  resultado.textContent = 'Humm, ainda bem que aceitaste. Next Step: Lobolo!😍';
+});
+</script>
+
+</body>
+</html>
